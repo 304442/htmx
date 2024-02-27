@@ -1,0 +1,112 @@
+version: "3"
+
+networks:
+  net:
+    external: true
+
+services:
+  dev2-pb:
+    container_name: dev2-pb
+    image: golang:alpine
+    networks: [net]
+    user: 1000:1000
+    expose: [8090]
+    entrypoint: /pb/entrypoint.sh
+    command: modd # live development
+    working_dir: /pb
+    environment:
+      - HOME=/pb
+      - AUDITLOG=posts,users
+    volumes:
+      - ./pb:/pb
+      - ./sk:/sk
+      - ./go/pkg:/go/pkg
+    labels: # Live development
+      - traefik.enable=true
+      - traefik.http.routers.dev2-pb.rule=Host(`dev.${HCC}`) && (PathPrefix(`/_`) || PathPrefix(`/api`))
+      - traefik.http.routers.dev2-pb.entrypoints=websecure
+      - traefik.http.routers.dev2-pb.tls.certresolver=leresolver
+      - traefik.http.routers.dev2-pb.middlewares=security-headers@file, error-pages-middleware@docker, ratelimit@file, geoblock@file
+  dev2-sk:
+    container_name: dev2-sk
+    image: node:current-alpine
+    networks: [net]
+    user: 1000:1000
+    expose: [5173] # Live development
+    command: sh -c "npx pnpm install && npm run dev -- --host 0.0.0.0" # live development
+    environment: [HOME=/sk]
+    working_dir: /sk
+    volumes:
+      - ./sk:/sk
+      - ./pb:/pb
+    labels: # live development
+      - traefik.enable=true
+      - traefik.http.routers.dev2-sk.rule=Host(`dev.${HCC}`) && !PathPrefix(`/api`) && !PathPrefix(`/_`)
+      - traefik.http.routers.dev2-sk.entrypoints=websecure
+      - traefik.http.routers.dev2-sk.tls.certresolver=leresolver
+      - traefik.http.routers.dev2-sk.middlewares=security-headers@file, error-pages-middleware@docker, ratelimit@file, geoblock@file
+
+  prod2-pb:
+    container_name: prod2-pb
+    image: golang:alpine
+    networks: [net]
+    user: 1000:1000
+    expose: [8090]
+    entrypoint: /pb/entrypoint.sh
+    command: "/pb/pocketbase serve --http 0.0.0.0:8090 --publicDir /sk/build" # Production
+    working_dir: /pb
+    environment:
+      - HOME=/pb
+      - AUDITLOG=posts,users
+    volumes:
+      - ./pb:/pb
+      - ./sk:/sk
+      - ./go/pkg:/go/pkg
+    labels: # Production
+      - traefik.enable=true
+      - traefik.http.routers.prod2-pb.rule=Host(`${HCC}`) && (PathPrefix(`/_`) || PathPrefix(`/api`))
+      - traefik.http.routers.prod2-pb.entrypoints=websecure
+      - traefik.http.routers.prod2-pb.tls.certresolver=leresolver
+      - traefik.http.routers.prod2-pb.middlewares=security-headers@file, error-pages-middleware@docker, ratelimit@file, geoblock@file
+  prod2-sk:
+    container_name: prod2-sk
+    image: node:current-alpine
+    networks: [net]
+    user: 1000:1000
+    expose: [4173]
+    command: sh -c "npx pnpm install && npm run build && npm run preview -- --host 0.0.0.0" # Production
+    working_dir: /sk
+    environment: [HOME=/sk]
+    volumes:
+      - ./sk:/sk
+      - ./pb:/pb
+    labels: # Production
+      - traefik.enable=true
+      - traefik.http.routers.prod2-sk.rule=Host(`${HCC}`) && !PathPrefix(`/api`) && !PathPrefix(`/_`)
+      - traefik.http.routers.prod2-sk.entrypoints=websecure
+      - traefik.http.routers.prod2-sk.tls.certresolver=leresolver
+      - traefik.http.routers.prod2-sk.middlewares=security-headers@file, error-pages-middleware@docker, ratelimit@file, geoblock@file
+
+  live2-ide:
+    container_name: live2-ide
+    image: ghcr.io/linuxserver/code-server
+    privileged: true
+    networks: [net]
+    # ports: [8448:8443]
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - PASSWORD=${PASS}
+      - SUDO_PASSWORD=${PASS}
+      - DEFAULT_WORKSPACE=/workspace
+      - VSCODE_EXTENSION_IDS=esbenp.prettier-vscode|svelte.svelte-vscode|albert.TabOut|bradlc.vscode-tailwindcss|PKief.material-icon-theme|akamud.vscode-theme-onedark
+      - DOCKER_MODS=linuxserver/mods:universal-git # linuxserver/mods:universal-package-install|linuxserver/mods:code-server-zsh|linuxserver/mods:code-server-nodejs|linuxserver/mods:code-server-npmglobal
+    volumes:
+      - ./:/workspace
+      - ./ide/config:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.live2-ide.rule=Host(`live.${HCC}`)
+      - traefik.http.routers.live2-ide.entrypoints=websecure
+      - traefik.http.routers.live2-ide.tls.certresolver=leresolver
+      - traefik.http.routers.live2-ide.middlewares=security-headers@file, error-pages-middleware@docker, ratelimit@file, geoblock@file #, auth@file
