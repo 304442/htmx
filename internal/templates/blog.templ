@@ -1,0 +1,34 @@
+package templates
+
+import "github.com/xnpltn/hcc/internal/models"
+
+templ blogBody(blogs []models.Blog){
+     <h1 class="flex items-center justify-center">Blog</h1>
+     <div class="mt-10 text-center">
+          for _, blog:= range blogs {
+               <p>{ blog.Title }</p>
+               <p>{ blog.Content }</p>
+               <p>{ blog.Author }</p>
+          }
+     </div>
+     <div>
+          <form 
+          hx-post="/blog/create"
+          hx-encoding="multipart/form-data"
+          hx-trigger="submit"
+          >
+               <input type="text" name="title" placeholder="title"/>
+               <input type="text" name="content" placeholder="content"/>
+               <input type="text" name="author" placeholder="author"/>
+               <button type="submit">Sumit</button>
+          </form>
+     </div>
+}
+
+
+templ Blog(blogs []models.Blog){
+        @Base(){
+          @blogBody(blogs)
+        }
+        
+}

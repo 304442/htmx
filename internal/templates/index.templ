@@ -1,0 +1,22 @@
+package templates
+
+templ Index(isLoggedIn bool) {
+	@Base() {
+		<h1 class="flex items-center justify-center text-xl">Home Page</h1>
+		<div class="">
+		<h3 class="flex items-center justify-center text-lg">Book An Appointment</h3>
+          <form 
+          hx-post="/book"
+          hx-encoding="multipart/form-data"
+          hx-trigger="submit"
+		  hx-confirm="Did you check the email?"
+		  hx-swap="outerHTML"
+          >
+               <input type="email" name="user" placeholder="email"/>
+               <input type="date" name="date"/>
+			   <input type="time" name="time"/>
+               <button type="submit">Sumit</button>
+          </form>
+     </div>
+	}
+}

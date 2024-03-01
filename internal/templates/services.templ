@@ -1,0 +1,20 @@
+package templates
+
+import "github.com/xnpltn/hcc/internal/models"
+
+templ servicesBody() {
+	<h1 class="flex items-center justify-center">Services</h1>
+}
+
+templ Services(serivices []models.Service) {
+	@Base() {
+		@servicesBody()
+		<pre>
+		for _, service:= range serivices {
+               <p>{ service.Title }</p>
+               <p>{ service.Description }</p>
+               <p></p>
+          }
+		</pre>
+	}
+}
