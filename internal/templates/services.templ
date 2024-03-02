@@ -13,8 +13,18 @@ templ Services(serivices []models.Service) {
 		for _, service:= range serivices {
                <p>{ service.Title }</p>
                <p>{ service.Description }</p>
-               <p></p>
+               <button type="submit" class="bg-blue-100 px-2 -py-3 rounded ">
+				 purchase
+			   </button>
           }
 		</pre>
+
+		<h1>Accept Payment</h1>
+
+        <form action="" id="payment-form">
+          <div id="payment-element"></div>
+          <div id="error-messages"></div>
+          <button>pay</button>
+        </form>
 	}
 }
