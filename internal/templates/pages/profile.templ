@@ -1,0 +1,78 @@
+package pages
+
+import "github.com/xnpltn/hcc/internal/models"
+import "github.com/xnpltn/hcc/internal/templates/forms"
+
+templ ProfilePage(user models.User) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>HCC | Profile</title>
+			<link rel="shortcut icon" href="/static/images/logo.svg" type="image/x-icon"/>
+			<link href="/static/css/styles.css" rel="stylesheet"/>
+			<script src="/static/js/app.js" defer></script>
+			<script src="/static/js/htmx.min.js" defer></script>
+			<link href="/static/css/custom.css" rel="stylesheet"/>
+		</head>
+		<body class="px-5 pb-10">
+			<header class="py-4 px-4 flex justify-center items-center">
+				<div class="container mx-auto flex justify-center flex-col items-center">
+					<img src="/static/images/logo.svg" class="h-32 w-32 rounded bg-blue-900"/>
+					<h3 class="mt-2 text-lg md:text-xl font-bold">{ "@happycloudcomputing" }</h3>
+				</div>
+			</header>
+			<main>
+				<section class="flex flex-col items-center gap-5">
+					<div class="bg-gray-600 w-64 flex flex-col items-center py-3 rounded-md">
+						<h3 class="text-white py-2 capitalize font-semibold">{user.Name}</h3>
+						<div class="flex flex-col items-center justify-center h-full">
+							<img
+								class="rounded-full w-16 h-16 mb-2"
+								src="/static/images/placeholder-img.jpg"
+								alt="User Avatar"
+							/>
+							<h2 class="text-lg  text-white mb-1">
+								{ user.Username }
+							</h2>
+							<p class="text-sm text-gray-200">
+								{ user.Email }
+							</p>
+						</div>
+					</div>
+					<div>
+						<div class="flex items-center flex-col mb-5">
+							if !user.Verified {
+								<div class="text-center mb-2 cursor-pointer" hx-get="/auth/verify" hx-trigger="click" hx-swap="outerHTML" hx-indicator="#verify-indicator">
+									<span type="button" class=" bg-blue-700 rounded-md p-2 text-white">Verify email</span>
+									<div class="htmx-indicator" id="verify-indicator">
+										Please wait...
+									</div>
+								</div>
+							}
+							<div class="flex items-center justify-center text-center">
+								<button type="button" class=" bg-red-700 rounded-md p-2 text-white" hx-get="/logout" hx-confirm="Are you sure you want to logout?">Logout</button>
+							</div>
+						</div>
+						<div class="flex items-center justify-center text-center mb-5">
+							<button type="button" class="text-blue-700 rounded bg-gray-200 p-2" hx-on:click="toggleProfileUpdateForm()">Update Profile</button>
+						</div>
+						<div class="hidden" id="update-form-container">
+							<h3 class="text-center text-2xl font-bold">Update Profile</h3>
+							<p class="text-blue-700 text-sm text-center">Leave it empty if you don't want to make changes</p>
+							<div id="content_div" class=" max-w-md">
+								@forms.UpdateProfileForm(user)
+							</div>
+						</div>
+					</div>
+				</section>
+				<script>
+					function toggleProfileUpdateForm(){
+						document.getElementById("update-form-container").classList.toggle("hidden")
+					}
+				</script>
+			</main>
+		</body>
+	</html>
+}

@@ -1,0 +1,29 @@
+package forms
+
+import "github.com/xnpltn/hcc/internal/models"
+import "fmt"
+
+templ RevieForm(service models.Service) {
+	<form class="hidden" id="review-form" hx-vals={ fmt.Sprintf(`{"serviceID":"%s"}`, service.ID) } hx-post="/review" hx-encoding="multipart/form-data" hx-trigger="submit" hx-indicator="#loading">
+		<div class="mb-4">
+			<label for="review" class="block text-gray-700 font-bold mb-2">Review</label>
+			<textarea id="review" name="review" class="w-full border border-gray-300 rounded-md p-2" rows="4" maxlength="100" minlength="60" required></textarea>
+		</div>
+		<div class="mb-4">
+			<label for="rating" class="block text-gray-700 font-bold mb-2">Rating</label>
+			<div class="flex items-center">
+				<input type="radio" name="rating" id="rating-1" value="1" class="mr-2" required/>
+				<label for="rating-1" class="text-yellow-500">&#9733;</label>
+				<input type="radio" name="rating" id="rating-2" value="2" class="mx-2"/>
+				<label for="rating-2" class="text-yellow-500">&#9733;&#9733;</label>
+				<input type="radio" name="rating" id="rating-3" value="3" class="mx-2"/>
+				<label for="rating-3" class="text-yellow-500">&#9733;&#9733;&#9733;</label>
+				<input type="radio" name="rating" id="rating-4" value="4" class="mx-2"/>
+				<label for="rating-4" class="text-yellow-500">&#9733;&#9733;&#9733;&#9733;</label>
+				<input type="radio" name="rating" id="rating-5" value="5" class="mx-2"/>
+				<label for="rating-5" class="text-yellow-500">&#9733;&#9733;&#9733;&#9733;&#9733;</label>
+			</div>
+		</div>
+		<button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">Submit Review</button>
+	</form>
+}

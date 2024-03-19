@@ -1,0 +1,20 @@
+package modals
+
+templ FaqModal() {
+	<div
+		class="modal hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center"
+		id="modal-5"
+	>
+		<div
+			class="modal-content bg-white rounded-lg max-w-4xl w-full md:min-w-[720px] max-h-[80vh] flex flex-col"
+		>
+			<div class="flex justify-between items-center bg-gray-100 px-4 py-2 rounded-t-lg border-b border-gray-500 bg-slate-300">
+				<h2 class="text-xl font-bold">FAQ</h2>
+				<span class="material-symbols-outlined close-modal cursor-pointer text-gray-500 hover:text-gray-800">close</span>
+			</div>
+			<div class="p-4 overflow-y-auto flex-grow">
+				<div hx-get="/faqs" hx-trigger="load" hx-swap="innerHTML"></div>
+			</div>
+		</div>
+	</div>
+}

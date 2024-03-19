@@ -1,0 +1,45 @@
+package views
+
+import (
+	"github.com/xnpltn/hcc/internal/models"
+	"github.com/xnpltn/hcc/internal/templates/components"
+)
+
+templ Marketplace(serivices []models.Service) {
+	<section class="bg-white">
+		<div class="py-4 px-4 mx-auto max-w-screen-xl text-center">
+			<h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none  md:text-5xl lg:text-6xl text-gray-900">Explore our Services</h1>
+			<div class="flex items-center flex-col">
+				<input 
+				type="search" 
+				name="search" 
+				id="search" 
+				hx-post="/search"
+				hx-trigger="input changed delay:500ms, search"
+				hx-target="#search-results"
+				hx-indicator="#loading"
+				class="quote-form-field max-w-sm"
+				placeholder="search here"
+				/>
+				<div id="loading" class="htmx-indicator">Loading....</div>
+				<div id="search-results"></div>
+			</div>
+		</div>
+	</section>
+	<section class="bg-white ">
+		<div class="py-3 px-4 mx-auto max-w-screen-xl text-center lg:py-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+			for _, service:= range serivices {
+				@components.ServiceCard(service)
+			}
+		</div>
+	</section>
+	<div class="mb-10"></div>
+	<div class="hidden border border-gray-900 rounded p-2" id="buycard">
+		<h1 class="bg-red-500">Buy Now</h1>
+		<form id="payment-form">
+			<div id="payment-element" class="m-3"></div>
+			<div id="error-messages" class="text-center text-white p-2 rounded bg-red-800 m-2"></div>
+			<button class="bg-red-300 p-2 rounded text-lg">Pay</button>
+		</form>
+	</div>
+}

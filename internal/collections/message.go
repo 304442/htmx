@@ -19,11 +19,6 @@ var MessageCollection = &models.Collection{
 			Required: true,
 		},
 		&schema.SchemaField{
-			Name:     "reciever",
-			Type:     schema.FieldNameEmail,
-			Required: true,
-		},
-		&schema.SchemaField{
 			Name:     "message",
 			Type:     schema.FieldTypeText,
 			Required: true,

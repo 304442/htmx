@@ -1,0 +1,41 @@
+package pages
+
+// import "fmt"
+
+import "github.com/xnpltn/hcc/internal/models"
+
+
+script blogContent(content string){
+	const contentDiv = document.getElementById("content_div")
+	contentDiv.innerHTML = content
+}
+
+templ BlogPage(blog models.Blog) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>HCC | {blog.Title}</title>
+			<link rel="shortcut icon" href="/static/images/logo.svg" type="image/x-icon"/>
+			<link href="/static/css/styles.css" rel="stylesheet"/>
+			<script src="/static/js/app.js" defer></script>
+			<script src="/static/js/htmx.min.js" defer></script>
+			<link href="/static/css/custom.css" rel="stylesheet"/>
+		</head>
+		<body onload={ blogContent(blog.Content) } class="px-5 pb-10">
+			<header class="py-4 px-4 flex justify-center items-center">
+				<div class="container mx-auto flex justify-center flex-col items-center">
+					<img src="/static/images/logo.svg" class="h-32 w-32 rounded bg-blue-900"/>
+					<h3 class="mt-2 text-lg md:text-xl font-bold">{ "@happycloudcomputing" }</h3>
+				</div>
+			</header>
+			<section class="flex flex-col items-center">
+				<h1 class="text-center my-5 text-2xl font-bold">{ blog.Title }</h1>
+				// <img src={ fmt.Sprintf("/api/files/blog/%s/%s", blog.ID, blog.Image) } class="max-w-sm  text-center px-5"/>
+				<div id="content_div" class=" max-w-md">
+				</div>
+			</section>
+		</body>
+	</html>
+}

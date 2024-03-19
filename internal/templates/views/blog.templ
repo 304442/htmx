@@ -1,0 +1,19 @@
+package views
+
+import "github.com/xnpltn/hcc/internal/models"
+import "github.com/xnpltn/hcc/internal/templates/components"
+
+templ Blog(blogs []models.Blog) {
+	<section class="bg-white">
+		<div class="py-5 px-4 mx-auto max-w-screen-xl text-center ">
+			<h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none  md:text-5xl lg:text-6xl text-gray-900">Blog</h1>
+		</div>
+	</section>
+	<section class="bg-white ">
+		<div class="py-3 px-4 mx-auto max-w-screen-xl text-center lg:py-5 grid grid-cols-1 gap-4">
+			for _, blog:= range blogs {
+			@components.BlogCard(blog)
+		}
+		</div>
+	</section>
+}

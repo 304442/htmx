@@ -1,0 +1,14 @@
+package components
+
+templ IndexIcon(icon string, title string, data_modal string) {
+	<button
+		class="modal-toggle bg-blue-500 text-white p-4 rounded w-full mb-4 item_button flex items-center justify-between"
+		data-modal={ data_modal }
+	>
+		<div class="flex items-center justify-center gap-4">
+			<div class=" cursor-pointer flex items-center justfiy-center"><span class="material-symbols-outlined">{ icon }</span></div>
+			{ title }
+		</div>
+		<span class="material-symbols-outlined w-8 h-8">bottom_panel_open</span>
+	</button>
+}

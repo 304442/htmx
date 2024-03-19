@@ -1,0 +1,147 @@
+package pages
+
+import "fmt"
+
+import "github.com/xnpltn/hcc/internal/models"
+import "github.com/xnpltn/hcc/internal/templates/modals"
+import "github.com/xnpltn/hcc/internal/templates/components"
+import "github.com/xnpltn/hcc/internal/templates/forms"
+
+// import "strings"
+
+script payment(id string) {
+	document.addEventListener("DOMContentLoaded", async () => {
+    const { publishableKey } = await fetch("/config").then(r => r.json())
+    const stripe = Stripe(publishableKey)
+    const data = {
+        _id: id
+    };
+    const { client_secret } = await fetch("/cpi", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    }).then(r => r.json());
+
+    
+    const elements = stripe.elements({clientSecret: client_secret })
+    const paymentElement = elements.create('payment')
+    paymentElement.mount("#payment-element")
+    const form = document.getElementById("payment-form")
+    form.addEventListener("submit", async(e)=>{
+        e.preventDefault()
+        const{error } = await stripe.confirmPayment({
+            elements,
+            confirmParams: {
+                return_url: new URL(window.location.href).origin+"/success"
+            }
+        })
+        console.log(window.location.href)
+
+        if(error){
+            console.log("failed to pay")
+            const messages = document.getElementById("error-messages")
+            messages.innerText = error.message;
+        }else{
+            console.log("payment succesfull")
+        }
+    })
+})
+}
+
+script serviceDetails(content string) {
+	const detailsDiv = document.getElementById("details_div")
+	detailsDiv.innerHTML = content
+}
+
+templ ServicePage(service models.Service, isLogedIn bool, user models.User) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>HCC | Service - {service.Title}</title>
+			<link rel="shortcut icon" href="/static/images/logo.svg" type="image/x-icon"/>
+			<link href="/static/css/styles.css" rel="stylesheet"/>
+			<script src="/static/js/app.js" defer></script>
+			<script src="/static/js/htmx.min.js" defer></script>
+			<link href="/static/css/custom.css" rel="stylesheet"/>
+			<script src="https://js.stripe.com/v3/"></script>
+			<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+			// <script src="/static/js/payment.js"></script>
+			@payment(service.ID)
+		</head>
+		<body onload={ serviceDetails(service.Details) }>
+			@components.RedBanner(isLogedIn, user)
+			<header class="py-4 px-4 flex justify-center items-center">
+				<div class="container mx-auto flex justify-center flex-col items-center">
+					<img src="/static/images/logo.svg" class="h-32 w-32 rounded bg-blue-900"/>
+					<h3 class="mt-2 text-lg md:text-xl font-bold">{ "@happycloudcomputing" }</h3>
+				</div>
+			</header>
+			<main>
+				<section class="flex flex-col items-center px-2">
+					<h1 class="text-center my-5 text-2xl font-bold">{ service.Title }</h1>
+					<img src={ fmt.Sprintf("/api/files/services/%s/%s", service.ID, service.Image) } class="max-w-sm  text-center px-5"/>
+					<div>
+						<p class="text-center mt-5 max-w-sm ">{ service.Description }</p>
+					</div>
+					if isLogedIn {
+						<button
+							class="modal-toggle max-w-md bg-blue-500 text-white p-4 rounded w-full mb-4 item_button flex items-center justify-center"
+							data-modal="modal-1"
+							hx-on:click="showPaymentForm()"
+							
+						>
+							Buy Now { fmt.Sprintf("$%v", service.Price) }
+						</button>
+						<button type="button" class="" id="review-form-but">Purchased Before? <span class="text-blue-700">Leave a review</span></button>
+							@forms.RevieForm(service)
+						<div class="htmx-indicator" id="loading">Loading....</div>
+					} else {
+						<div class="bg-gray-600 px-2 py-3 text-white rounded-md">
+							<a href="/auth/login">Login to purchase</a>
+						</div>
+					}
+				</section>
+				<section class="flex flex-col items-center mt-5 mb-10 text-center">
+					<div id="details_div" class=" max-w-md"></div>
+				</section>
+				<section class="flex flex-col items-center mt-5 mb-10 text-center">
+					<h1 class="mb-5 font-semibold text-2xl">See what others say!</h1>
+					<div class=" max-w-md grid grid-cols-1 md:grid-cols-2 gap-5 px-4">
+						for _, r := range service.Reviews {
+							<div class="w-full rounded-lg shadow-md bg-white p-4 mx-auto">
+								<div class="flex items-center mb-2">
+									<h2 class="text-lg font-semibold capitalize " >{r.User}</h2>
+								</div>
+								<span class="text-gray-700 mb-2 text-start">{r.Review}</span>
+								<div class="flex items-center justify-around">
+									<div class="flex text-yellow-500">
+										&#9733;
+									</div>
+									<span class="ml-2 text-gray-600">{fmt.Sprintf("%.1f", r.Rating)}/5</span>
+								</div>
+							</div>	
+						}
+					</div>
+				</section>
+			</main>
+			@modals.CheckoutModal(service)
+			<script>
+				const buyCard = document.getElementById("buycard")
+				function showPaymentForm(){
+					buyCard.classList.remove("hidden")
+				}
+				const toggleFormBut = document.querySelector("#review-form-but")
+				const formContainer = document.querySelector("#review-form")
+				toggleFormBut.addEventListener("click", ()=>{
+					formContainer.classList.toggle('hidden');
+				})			
+			</script>
+		</body>
+	</html>
+}
+
+// hx-encoding="multipart/form-data"

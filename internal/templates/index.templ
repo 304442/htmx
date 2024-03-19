@@ -1,22 +1,51 @@
 package templates
 
-templ Index(isLoggedIn bool) {
-	@Base() {
-		<h1 class="flex items-center justify-center text-xl">Home Page</h1>
-		<div class="">
-		<h3 class="flex items-center justify-center text-lg">Book An Appointment</h3>
-          <form 
-          hx-post="/book"
-          hx-encoding="multipart/form-data"
-          hx-trigger="submit"
-		  hx-confirm="Did you check the email?"
-		  hx-swap="outerHTML"
-          >
-               <input type="email" name="user" placeholder="email"/>
-               <input type="date" name="date"/>
-			   <input type="time" name="time"/>
-               <button type="submit">Sumit</button>
-          </form>
-     </div>
-	}
+import (
+	"github.com/xnpltn/hcc/internal/templates/modals"
+	"github.com/xnpltn/hcc/internal/templates/components"
+	"github.com/xnpltn/hcc/internal/templates/views"
+	"github.com/xnpltn/hcc/internal/models"
+)
+
+templ Base(countries []models.Country, isLogedIn bool, activeTimes []models.ActiveHours, user models.User) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>HCC</title>
+			<link rel="shortcut icon" href="/static/images/logo.svg" type="image/x-icon"/>
+			<link href="/static/css/styles.css" rel="stylesheet"/>
+			<script src="/static/js/app.js" defer></script>
+			<script src="/static/js/htmx.min.js" defer></script>
+			// <script src="/static/js/calendar.js" defer></script>
+			<link href="/static/css/custom.css" rel="stylesheet"/>
+			<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+		</head>
+		<body class="flex flex-col min-h-screen">
+			@components.RedBanner(isLogedIn, user)
+			@components.Header(isLogedIn)
+			<main class="flex-grow flex items-center flex-col px-4 py-5">
+				<div class="max-w-3xl w-full">
+					<button class="about-toggle flex items-center justify-between bg-blue-900 text-white p-4 rounded-full w-full mb-4 text-white hover:text-blue-800 hover:bg-white hover:border-blue-800 border focus:outline-none focus:ring focus:ring-blue-300 overflow-hidden shadow-md" onclick="toggleAbout()">
+						<div class="flex items-center justify-center gap-4">
+							Our Services
+						</div>
+						<span class="material-symbols-outlined w-8 h-8" id="toggleAboutIcon">arrow_drop_down</span>
+					</button>
+					@views.About()
+					@components.IndexIcon("library_books", "Blog", "modal-1")
+					@components.IndexIcon("linked_services", "Solutions Marketplace", "modal-2")
+					@components.IndexIcon("gesture_select", "Book an appointment", "modal-3")
+					@components.IndexIcon("request_quote", "Request a free Quote", "modal-4")
+					@components.IndexIcon("quiz", "FAQ", "modal-5")
+				</div>
+				@modals.BlogModal()
+				@modals.SolutionsModal()
+				@modals.ConsultationModal(activeTimes)
+				@modals.QuoteMdl(countries)
+				@modals.FaqModal()
+			</main>
+		</body>
+	</html>
 }

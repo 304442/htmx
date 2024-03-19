@@ -1,0 +1,20 @@
+package components
+
+import "github.com/xnpltn/hcc/internal/models"
+import "fmt"
+
+templ BlogCard(blog models.Blog) {
+	<div class="flex item-center gap-2  bg-white border border-gray-200 rounded-lg shadow  border-gray-700 flex-col md:flex-row">
+		<img src={ fmt.Sprintf("/api/files/blog/%s/%s", blog.ID, blog.Image) } alt={blog.Title}  class="rounded  sm:w-full md:w-72"/>
+		<div class="p-5">
+			<a href="#">
+				<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">{ blog.Title }</h5>
+			</a>
+			<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{ blog.Description }</p>
+			<a href={ templ.URL("/blog/" + blog.ID) } class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+				Read More
+				// { fmt.Sprintf("%v$", price) }
+			</a>
+		</div>
+	</div>
+}

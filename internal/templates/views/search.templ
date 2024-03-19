@@ -1,0 +1,23 @@
+package views
+
+import "github.com/xnpltn/hcc/internal/models"
+import "github.com/xnpltn/hcc/internal/templates/components"
+
+templ Search(serivices []models.Service) {
+	if cap(serivices) < 1 {
+		<div class="search ">
+			<div class=" mx-auto max-w-screen-xl text-center grid grid-cols-1">
+				No Search Results
+			</div>
+		</div>
+	} else {
+		<section class="search">
+            <span class="material-symbols-outlined close-modal cursor-pointer text-gray-500 hover:text-gray-800 absolute top-3 right-1">close</span>
+			<div class="py-3 px-2 mx-auto max-w-screen-xl text-center  grid grid-cols-1 md:grid-cols-2 gap-4">
+				for _, service:= range serivices {
+					@components.ServiceCard(service)
+				}
+			</div>
+		</section>
+	}
+}

@@ -6,6 +6,11 @@
 /go
 /ide
 index.html
-details.txt
 tcss
 bin/*
+**/*_templ.txt
+**/*_cmd.txt
+**/*_do.txt
+pb_data/*
+tmp/*
+date.html

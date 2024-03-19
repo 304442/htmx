@@ -1,0 +1,36 @@
+package views
+
+import "github.com/xnpltn/hcc/internal/templates/components"
+
+
+
+templ About() {
+	<div class="hidden transition-all duration-300" id="about_section">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-1 bg-gradient-to-r from-purple-950 to-blue-950 rounded-lg m-10 p-4">
+			<div class="flex flex-col items-center">
+				<h2 class="text-lg text-white font-bold">Core Offerings</h2>
+				<div class="mt-5 flex flex-col gap-5 ">
+					@components.AboutCard("AWS Infrastructure Setup & Management", "Design, deploy, and manage scalable, secure, and cost-effective AWS infrastructure.")
+					@components.AboutCard("Serverless Architecture Consulting", "Build scalable and cost-effective applications using AWS Lambda, API Gateway, and more.")
+					@components.AboutCard("Cloud Migration Services", "Migrate applications and services to AWS with minimal downtime and a smooth transition.")
+				</div>
+			</div>
+			<div class="flex flex-col items-center">
+				<h1 class="text-lg text-white font-bold">Specialized Services</h1>
+				<div class="mt-5 flex flex-col gap-5">
+					@components.AboutCard("AWS Cost Optimization", "Analyze and reduce AWS spending with cost-saving strategies.")
+					@components.AboutCard("Infrastructure as Code (IaC)", "Implement AWS CloudFormation or Terraform for efficient infrastructure management.")
+					@components.AboutCard("DevOps & CI/CD Pipeline Implementation", "Set up automated deployment pipelines using AWS CodePipeline, CodeBuild, and CodeDeploy for efficient application development and deployment.")
+				</div>
+			</div>
+			<div class="flex flex-col items-center">
+				<h1 class="text-lg text-white font-bold">Additional Services</h1>
+				<div class="mt-5 flex flex-col gap-5">
+					@components.AboutCard("Data Migration & Analytics", "Assist clients in migrating their data to AWS data stores like Amazon S3, Amazon RDS, or Amazon DynamoDB, and provide data analytics services using AWS tools like Amazon Redshift, Amazon Athena, and Amazon QuickSight.")
+					@components.AboutCard("IoT & Edge Computing Solutions", "Build IoT solutions using AWS IoT Core, IoT Greengrass, and other services.")
+					@components.AboutCard("Blockchain and Distributed Ledger Technology", "Explore decentralized and secure transaction systems using AWS blockchain services.")
+				</div>
+			</div>
+		</div>
+	</div>
+}

@@ -1,0 +1,47 @@
+
+
+package forms
+
+templ Login() {
+	<form hx-post="/login" hx-encoding="multipart/form-data" class="">
+		<div class="grid grid-cols-1 md:grid-cols-2  gap-4 mt-5">
+			<div class="md:col-span-1">
+				<label for="email" class="quote-form-label">Email</label>
+				<input type="email" required name="email" id="email" placeholder="email" class="quote-form-field"/>
+			</div>
+			<div class="md:col-span-1">
+				<label for="password" class="quote-form-label">Password</label>
+				<input type="password" required id="password" name="password" placeholder="password" class="quote-form-field"/>
+			</div>
+		</div>
+		<div class="mt-4">
+			<button type="submit" class="inline-flex justify-center w-full py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+				Login
+			</button>
+		</div>
+	</form>
+	<div class="mt-5 p-2">
+		Don't have an account? 
+		<button type="button" class="text-blue-700" hx-get="/auth/signup" hx-target="#view" hx-trigger="click" hx-push-url="true">Create one</button>
+	</div>
+	<div class="p-1" hx-on:click="toggleItt()">
+		<button type="button" class="text-blue-700">Forgot Password? </button>
+	</div>
+	<div class="mt-4 hidden" id="emailInputContainer">
+		<form hx-post="/passreset" hx-encoding="multipart/form-data" hx-indicator="#reset-indicator">
+			<div class="md:col-span-1">
+				<label for="email" class="quote-form-label">Enter your email</label>
+				<input type="email" name="email" placeholder="Email" class="quote-form-field" required/>
+			</div>
+			<button type="submit" class="mt-2  text-blue-700 bg-gray-200 rounded p-2">Reset</button>
+		</form>
+		<div class="htmx-indicator px-2" id="reset-indicator">
+			Please wait...
+		</div>
+	</div>
+	<script>
+		function toggleItt(){
+			document.getElementById("emailInputContainer").classList.toggle("hidden")
+		}
+	</script>
+}

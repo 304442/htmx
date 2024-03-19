@@ -1,0 +1,58 @@
+package modals
+
+import "github.com/xnpltn/hcc/internal/models"
+import "strings"
+
+
+templ ConsultationModal(activeTimes []models.ActiveHours) {
+	<div
+		class="modal hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center"
+		id="modal-3"
+	>
+		<div
+			class="modal-content bg-white rounded-lg max-w-4xl w-full md:min-w-[720px] max-h-[80vh] flex flex-col"
+		>
+			<div class="flex justify-between items-center bg-gray-100 px-4 py-2 rounded-t-lg border-b border-gray-500 bg-slate-300">
+				<h2 class="text-xl font-bold">Appointment</h2>
+				<span class="material-symbols-outlined close-modal cursor-pointer text-gray-500 hover:text-gray-800">close</span>
+			</div>
+			<div class="p-4 overflow-y-auto flex-grow">
+				<div>
+					<form class="max-w-3xl mx-auto" hx-encoding="multipart/form-data" hx-post="/appointment" hx-trigger="submit" hx-indicator=".htmx-indicator">
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+							<div class="md:col-span-1">
+								<label for="name" class="quote-form-label">Name</label>
+								<input type="text" id="name" name="name" class="quote-form-field"/>
+							</div>
+							<div class="md:col-span-1">
+								<label for="email" class="quote-form-label">Email</label>
+								<input type="email" name="email" id="email" class="quote-form-field"/>
+							</div>
+							<div class="md:col-span-1">
+								<label for="free" class="quote-form-label">Free </label>
+								<select class="quote-form-field" id="free" name="free">
+									<option value="0">No</option>
+									<option value="1">Yes</option>
+								</select>
+							</div>
+							<div class="md:col-span-1">
+								<label for="date" class="quote-form-label">Choose Date and Time</label>
+								<select class="quote-form-field" id="date" name="date">
+										<option value="">Choose</option>
+										for _, act := range activeTimes{
+											<option value={strings.Split(act.Active, ":00.000Z")[0]}>{strings.Split(act.Active, ":00.000Z")[0]} UTC</option>
+										}
+								</select>
+							</div>
+						</div>
+						<div class="mt-4">
+							<button type="submit" class="inline-flex justify-center w-full py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+								Submit
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+}
