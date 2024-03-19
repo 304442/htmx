@@ -1,1 +1,2 @@
 2024/03/19 19:15:07 Error: Invalid login credentials.
+2024/03/19 23:25:10 Error: dial tcp: lookup smtp-relay.brevo.com on 127.0.0.53:53: server misbehaving

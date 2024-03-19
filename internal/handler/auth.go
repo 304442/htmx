@@ -267,7 +267,7 @@ func ChangePasshandler(app *pocketbase.PocketBase) echo.HandlerFunc {
 		if err != nil {
 			fmt.Println(err)
 			utils.WriteToLogs(err)
-			pages.ChangePasswordPage(*user).Render(c.Request().Context(), c.Response().Writer)
+			return pages.ChangePasswordPage(*user).Render(c.Request().Context(), c.Response().Writer)
 		}
 		user.Email = authRecord.Email()
 		user.Name = authRecord.GetString("name")
@@ -282,7 +282,6 @@ func HandleResetpassword(app *pocketbase.PocketBase) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		values, err := c.FormValues()
 		if err != nil {
-
 			utils.WriteToLogs(err)
 			return c.HTML(200, "something went wrong changeing your password")
 
