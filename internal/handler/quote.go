@@ -89,7 +89,7 @@ func QuotePost(app *pocketbase.PocketBase) echo.HandlerFunc {
 
 		return c.HTML(http.StatusCreated, `
 		<p class="text-blue-700 text-center p-2 border border-gray-700">
-			
+			Request reciever successfully. Wait for confimration email.
 		</p>
 		`)
 	}
