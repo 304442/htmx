@@ -4,3 +4,10 @@
 2024/03/20 00:35:57 Error: 501 5.5.2 Was expecting RCPT arg syntax of TO:<address>
 2024/03/20 00:36:35 Error: 501 5.5.2 Was expecting RCPT arg syntax of TO:<address>
 2024/03/20 00:36:46 Error: 502 5.5.1 Missing RCPT TO command.
+2024/03/20 00:49:17 Error: 501 5.5.2 Was expecting RCPT arg syntax of TO:<address>
+2024/03/20 00:49:41 Error: 501 5.5.2 Was expecting RCPT arg syntax of TO:<address>
+2024/03/20 00:49:57 Error: 502 5.5.1 Missing RCPT TO command.
+2024/03/20 00:50:53 Error: 501 5.5.2 Was expecting RCPT arg syntax of TO:<address>
+2024/03/20 00:51:17 Error: 501 5.5.2 Was expecting RCPT arg syntax of TO:<address>
+2024/03/20 00:51:28 Error: 502 5.5.1 Missing RCPT TO command.
+2024/03/20 00:51:33 Error: token contains an invalid number of segments
