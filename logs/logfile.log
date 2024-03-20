@@ -11,3 +11,16 @@
 2024/03/20 00:51:17 Error: 501 5.5.2 Was expecting RCPT arg syntax of TO:<address>
 2024/03/20 00:51:28 Error: 502 5.5.1 Missing RCPT TO command.
 2024/03/20 00:51:33 Error: token contains an invalid number of segments
+2024/03/20 08:27:29 Error: SQL logic error: no such table: configs (1)
+2024/03/20 08:27:29 Error: SQL logic error: no such table: configs (1)
+2024/03/20 08:27:29 Error: SQL logic error: no such table: configs (1)
+2024/03/20 08:31:06 Error: SQL logic error: no such table: configs (1)
+2024/03/20 08:31:06 Error: SQL logic error: no such table: configs (1)
+2024/03/20 08:31:06 Error: SQL logic error: no such table: configs (1)
+2024/03/20 08:31:11 Error: SQL logic error: no such table: activeHours (1)
+2024/03/20 08:31:11 Error: SQL logic error: no such table: countries (1)
+2024/03/20 08:31:11 Error: SQL logic error: no such table: blog (1)
+2024/03/20 08:31:11 Error: SQL logic error: no such table: faqs (1)
+2024/03/20 08:31:11 Error: SQL logic error: no such table: services (1)
+2024/03/20 08:31:30 Error: SQL logic error: no such table: activeHours (1)
+2024/03/20 08:31:30 Error: SQL logic error: no such table: countries (1)
