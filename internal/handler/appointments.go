@@ -83,6 +83,8 @@ func BookAppointment(app *pocketbase.PocketBase) echo.HandlerFunc {
 			utils.WriteToLogs(err)
 		}
 
+		utils.SendNotifications(app, " a new appointment book", fmt.Sprintf("User with email %s booked an apointment at %s", values.Get("email"), parsedTime.String()))
+
 		// email to user
 		if err := utils.SendMail(
 			app,

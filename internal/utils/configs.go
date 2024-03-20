@@ -13,12 +13,12 @@ type Configs struct{
 	AdminEmail string  `db:"admin_email"`
 }
 
-func GetAdminConfigs(app *pocketbase.PocketBase) Configs{
+func GetAdminConfigs(app *pocketbase.PocketBase) *Configs{
 	configs := Configs{}
 	if err := app.Dao().DB().Select("*").From("configs").One(&configs); err!= nil{
 		WriteToLogs(err)
 		log.Println("Remember to add configuration keys in 'configs' collection. ")
 		log.Print("required keys are: \n 'stripe_publishable_key' \n 'stripe_secret_key' \n'stripe_webhook_secret', \n 'admin_email'\n exactly with those names")
 	}
-	return configs
+	return &configs
 }

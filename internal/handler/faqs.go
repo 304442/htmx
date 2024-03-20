@@ -52,6 +52,7 @@ func FaqPostSpecific(app *pocketbase.PocketBase) echo.HandlerFunc {
 
 		// email to admin
 
+		utils.SendNotifications(app, "New Question Asked", fmt.Sprintf("A user with email %s asked a question %s ", c.FormValue("email"), c.FormValue("message")))
 		if err := utils.SendMail(
 			app,
 			"Admin",
