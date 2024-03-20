@@ -11,3 +11,17 @@
 2024/03/20 00:51:17 Error: 501 5.5.2 Was expecting RCPT arg syntax of TO:<address>
 2024/03/20 00:51:28 Error: 502 5.5.1 Missing RCPT TO command.
 2024/03/20 00:51:33 Error: token contains an invalid number of segments
+2024/03/20 09:43:12 Error: token contains an invalid number of segments
+2024/03/20 12:08:58 Error: token contains an invalid number of segments
+2024/03/20 12:09:00 Error: token contains an invalid number of segments
+2024/03/20 12:12:09 Error: webhook had no valid signature
+2024/03/20 12:12:48 Error: webhook had no valid signature
+2024/03/20 12:12:48 Error: webhook had no valid signature
+2024/03/20 12:15:51 Error: webhook had no valid signature
+2024/03/20 12:16:32 Error: webhook had no valid signature
+2024/03/20 12:16:32 Error: webhook had no valid signature
+2024/03/20 12:18:39 Error: sql: no rows in result set
+2024/03/20 12:18:39 &{0xc00096c000 0xc00007e4e0 0xc0007b1b30 /api/* 0xc000012948 [] map[] map[execStart:{13940553859065155926 11915504489 0x29f10c0}] 0xc00078ca20 {{0 0} 0 0 {{} 0} {{} 0}}}
+2024/03/20 12:18:39 Error: Not Found.
+2024/03/20 12:18:47 Error: sql: no rows in result set
+2024/03/20 12:19:58 Error: 501 5.5.2 Was expecting RCPT arg syntax of TO:<address>

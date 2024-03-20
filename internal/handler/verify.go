@@ -11,25 +11,23 @@ import (
 	"github.com/xnpltn/hcc/internal/utils"
 )
 
-
-
-func VerifyEmail(app * pocketbase.PocketBase) echo.HandlerFunc{
+func VerifyEmail(app *pocketbase.PocketBase) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		authRecord, err := app.Dao().FindAuthRecordByToken(c.PathParam("token"), app.Settings().RecordVerificationToken.Secret)
-		if err!= nil{
+		if err != nil {
 			utils.WriteToLogs(err)
-		}	
-		if err := authRecord.SetVerified(true); err != nil{
-				utils.WriteToLogs(err)	
 		}
-		if err := app.Dao().Save(authRecord); err != nil{
+		if err := authRecord.SetVerified(true); err != nil {
+			utils.WriteToLogs(err)
+		}
+		if err := app.Dao().Save(authRecord); err != nil {
 			utils.WriteToLogs(err)
 		}
 		return pages.VerifyEmail(authRecord.Email()).Render(c.Request().Context(), c.Response().Writer)
 	}
 }
 
-func VerifyRequestHandler(app *pocketbase.PocketBase) echo.HandlerFunc{
+func VerifyRequestHandler(app *pocketbase.PocketBase) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		cookie, err := c.Cookie("auth_token")
 		if err != nil {

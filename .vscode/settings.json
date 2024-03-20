@@ -13,5 +13,8 @@
             "**/*_templ.go": true,
             "**/*_templ.txt": true
     },
-    "explorerExclude.backup": {}
+    "explorerExclude.backup": {},
+    "files.autoSaveWhenNoErrors": true,
+    "files.autoSaveDelay": 2000,
+    "files.autoSave": "afterDelay",
 }

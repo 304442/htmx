@@ -57,6 +57,7 @@ func QuotePost(app *pocketbase.PocketBase) echo.HandlerFunc {
 		}
 
 		// email to admin
+		utils.SendNotifications(app, "A user requested a free quote", fmt.Sprintf("A user with email %s requested a free quote, descriptions: %s", values.Get("email"), values.Get("description")))
 		conns := utils.GetAdminConfigs(app)
 		emailtoAdminMessage := &mailer.Message{
 			From: mail.Address{

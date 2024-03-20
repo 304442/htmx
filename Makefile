@@ -12,4 +12,4 @@ tcss:
 		--minify
 
 stripehook:
-	stripe listen --forward-to http://127.0.0.1:8090/webhook --forward-connect-to http://127.0.0.1:8090/webhook
+	stripe listen --forward-to http://127.0.0.1:8080/webhook --forward-connect-to http://127.0.0.1:8080/webhook

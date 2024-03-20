@@ -7,7 +7,6 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/dbx"
@@ -103,7 +102,7 @@ func PaymentWebHook(app *pocketbase.PocketBase) echo.HandlerFunc {
 		if err != nil {
 			return c.String(404, "an error occured")
 		}
-		event, err := webhook.ConstructEvent(b, c.Request().Header.Get("Stripe-Signature"), os.Getenv("STRIPE_WEBHOOK_SECRET"))
+		event, err := webhook.ConstructEvent(b, c.Request().Header.Get("Stripe-Signature"), conns.StripeWebhookKey)
 		if err != nil {
 			utils.WriteToLogs(err)
 			return c.String(400, "an error occured")
@@ -120,6 +119,10 @@ func PaymentWebHook(app *pocketbase.PocketBase) echo.HandlerFunc {
 				utils.WriteToLogs(err)
 			}
 			// Notify the admin
+			
+			if err  = utils.SendNotifications(app, "You Recieved a payement", fmt.Sprintf("Purchase: ", paymentData.Description)); err != nil{
+				fmt.Println(err)
+			}
 			if err := utils.SendMail(
 				app,
 				"admin",
