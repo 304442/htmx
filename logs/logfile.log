@@ -24,3 +24,8 @@
 2024/03/20 08:31:11 Error: SQL logic error: no such table: services (1)
 2024/03/20 08:31:30 Error: SQL logic error: no such table: activeHours (1)
 2024/03/20 08:31:30 Error: SQL logic error: no such table: countries (1)
+2024/03/20 08:32:30 Error: SQL logic error: no such table: activeHours (1)
+2024/03/20 08:32:30 Error: SQL logic error: no such table: countries (1)
+2024/03/20 08:32:31 Error: SQL logic error: no such table: blog (1)
+2024/03/20 08:32:31 Error: SQL logic error: no such table: faqs (1)
+2024/03/20 08:32:31 Error: SQL logic error: no such table: services (1)
