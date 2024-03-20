@@ -26,6 +26,7 @@ type Data struct {
 type PaymentData struct {
 	Description string `json:"description"`
 }
+
 func StripeonfigHandler(app *pocketbase.PocketBase) echo.HandlerFunc {
 	conns := utils.GetAdminConfigs(app)
 	return func(c echo.Context) error {
@@ -43,7 +44,6 @@ func StripeonfigHandler(app *pocketbase.PocketBase) echo.HandlerFunc {
 
 func PaymentIntentHandler(app *pocketbase.PocketBase) echo.HandlerFunc {
 
-	
 	conns := utils.GetAdminConfigs(app)
 	stripe.Key = conns.StripeSecretKey
 	return func(c echo.Context) error {
@@ -119,8 +119,8 @@ func PaymentWebHook(app *pocketbase.PocketBase) echo.HandlerFunc {
 				utils.WriteToLogs(err)
 			}
 			// Notify the admin
-			
-			if err  = utils.SendNotifications(app, "You Recieved a payement", fmt.Sprintf("Purchase: ", paymentData.Description)); err != nil{
+
+			if err = utils.SendNotifications(app, "You Recieved a payement", fmt.Sprintf("Purchase: %s", paymentData.Description)); err != nil {
 				fmt.Println(err)
 			}
 			if err := utils.SendMail(
@@ -168,5 +168,3 @@ func SuccessHandler(app *pocketbase.PocketBase) echo.HandlerFunc {
 		return pages.SuccessPage(*user).Render(c.Request().Context(), c.Response().Writer)
 	}
 }
-
-
